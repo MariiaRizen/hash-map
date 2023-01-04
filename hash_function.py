@@ -12,41 +12,42 @@ class HashTable:
     #вставляє пару ключ-значення в хеш-мапу
     def set_val(self, key, val):
 
-        # за допомогою хеш-функціі одержуємо індекс з ключем
+        # генеруємо хеш у нашій таблиці
         hashed_key = hash(key) % self.size
 
-        #отримуємо сегмент списка по індексу ключа
+        # отримуємо рядок хеш-таблиці по індексу ключа
         bucket = self.hash_table[hashed_key]
 
         found_key = False
+        # перевіряємо чи існує запис з таким ключем
         for index, record in enumerate(bucket):
             record_key, record_val = record
 
-            # перевіряємо чи ключ сегмента відповідає ключу, який потрібно вставити
             if record_key == key:
                 found_key = True
                 break
 
-        # якщо відповідає, то змінюємо значення, якщо не відповідає, добавляємо новий ключ-значення
         if found_key:
+            # оновлюємо значення, якщо запис з ключем уже існує
             bucket[index] = (key, val)
         else:
+            # добавляємо значення, якщо не існує
             bucket.append((key, val))
 
     # повертаємо потрібне значення за допомогою ключа
     def get_val(self, key):
 
-        # отримуємо індекс з ключем за допомогою хеш-функціі
+        # генеруємо хеш у нашій таблиці
         hashed_key = hash(key) % self.size
 
-        # отримуємо комірку, яка відповідає індексу
+        # отримуємо рядок хеш-таблиці по хешу
         bucket = self.hash_table[hashed_key]
 
         found_key = False
+        # перевіряємо чи існує запис з таким ключем
         for index, record in enumerate(bucket):
             record_key, record_val = record
 
-            # перевіряємо чи ключ сегмента відповідає ключу, який нам потрібно
             if record_key == key:
                 found_key = True
                 break
@@ -60,20 +61,22 @@ class HashTable:
     #  видалення значення за ключем
     def delete_val(self, key):
 
-        # отримуємо індекс з ключем, використовуючи хеш-функцію
+        # генеруємо хеш у нашій таблиці
         hashed_key = hash(key) % self.size
 
-        # отримуємо комірку, яка відповідає індексу
+        # отримуємо рядок хеш-таблиці по хешу
         bucket = self.hash_table[hashed_key]
 
         found_key = False
+        # перевіряємо чи існує запис з таким ключем
         for index, record in enumerate(bucket):
             record_key, record_val = record
 
-            # перевіряємо чи комірка має той самий ключ, по якою ми маємо видалити значення
             if record_key == key:
                 found_key = True
                 break
+
+        # якщо у нас існує значення, по даному ключу, то видаляємо його
         if found_key:
             bucket.pop(index)
         return
